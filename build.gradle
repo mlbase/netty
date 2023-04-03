@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'io.netty:netty-all:4.1.90.Final'
+    // https://mvnrepository.com/artifact/org.mongodb/mongodb-driver-reactivestreams
+    implementation 'org.mongodb:mongodb-driver-reactivestreams:4.7.1'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.1'
+
+
+
+
+}
+
+test {
+    useJUnitPlatform()
+}
