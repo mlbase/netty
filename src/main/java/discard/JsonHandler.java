@@ -1,18 +1,22 @@
 package discard;
-
+import static com.mongodb.client.model.Filters.eq;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.*;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerAddress;
-import com.mongodb.reactivestreams.client.MongoClient;
-import com.mongodb.reactivestreams.client.MongoClients;
-import com.mongodb.reactivestreams.client.MongoCollection;
-import com.mongodb.reactivestreams.client.MongoDatabase;
+import com.mongodb.client.model.Projections;
+import com.mongodb.client.model.Sorts;
+import com.mongodb.client.result.InsertOneResult;
+import com.mongodb.reactivestreams.client.*;
+import org.bson.conversions.Bson;
 import dto.UserPosition;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
 import org.bson.Document;
+import utils.SubscribeHelper;
+import utils.SubscribeHelper.*;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -42,12 +46,19 @@ public class JsonHandler extends ChannelInboundHandlerAdapter {
 
         MongoClient mongoClient = MongoClients.create(settings);
         MongoDatabase database = mongoClient.getDatabase("test");
-        MongoCollection<Document> mongoCollection = database.getCollection("testcollection");
-        Document doc = new Document("user_id", userPosition.getUserId())
+        MongoCollection<Document> collection = database.getCollection("testcollection");
+        Document doc = new Document()
+                .append("user_id", userPosition.getUserId())
                 .append("position_xy", userPosition.getPositionXY());
-        mongoCollection.insertOne(doc);
-        UserPosition inserted_data = (UserPosition) mongoCollection.find();
-        System.out.println(inserted_data.toString());
+
+        collection.insertOne(doc).subscribe(new ObservableSubscriber<InsertOneResult>() {
+        });
+
+
+        collection.find(eq("user_id", userPosition.getUserId()))
+                .subscribe(new PrintDocumentSubscriber());
+
+
     }
 
     @Override
