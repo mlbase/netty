@@ -1,5 +1,7 @@
-package discard;
+package reactor;
 
+import decoder.JsonDecoder;
+import handler.JsonHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -9,11 +11,11 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-public class DiscardServer {
+public class DiscardReactor {
 
     private int port;
 
-    public DiscardServer(int port) {
+    public DiscardReactor(int port) {
         this.port = port;
     }
 
@@ -27,6 +29,7 @@ public class DiscardServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
+                            ch.pipeline().addLast(new JsonDecoder());
                             ch.pipeline().addLast(new JsonHandler());
                         }
                     })
@@ -52,6 +55,6 @@ public class DiscardServer {
             port = Integer.parseInt(args[0]);
         }
 
-        new DiscardServer(port).run();
+        new DiscardReactor(port).run();
     }
 }

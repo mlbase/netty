@@ -1,30 +1,17 @@
-package discard;
+package handler;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.MongoClientSettings;
-import com.mongodb.ServerAddress;
-import com.mongodb.reactivestreams.client.MongoClient;
-import com.mongodb.reactivestreams.client.MongoClients;
-import com.mongodb.reactivestreams.client.MongoCollection;
-import com.mongodb.reactivestreams.client.MongoDatabase;
-import dto.UserPosition;
 import io.netty.buffer.ByteBuf;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
-import org.bson.Document;
-
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 
 /**
  * Handles a server-side channel.
  */
-public class DiscardServerHandler extends ChannelInboundHandlerAdapter { // (1)
+public class DiscardHandler extends ChannelInboundHandlerAdapter { // (1)
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) { // (2)
