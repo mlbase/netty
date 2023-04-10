@@ -3,12 +3,10 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.reactivestreams.client.*;
-import decoder.JsonDecoder;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.ChannelPipeline;
 import org.bson.Document;
-import subscriber.InsertSubcriber;
+import subscriber.InsertSubscriber;
 
 
 import java.util.Arrays;
@@ -32,7 +30,7 @@ public class JsonHandler extends ChannelInboundHandlerAdapter {
             MongoClient mongoClient = MongoClients.create(settings);
             MongoDatabase database = mongoClient.getDatabase("test");
             MongoCollection<Document> collection = database.getCollection("testcollection");
-            collection.insertOne(document).subscribe(new InsertSubcriber<InsertOneResult>());
+            collection.insertOne(document).subscribe(new InsertSubscriber<InsertOneResult>());
         }
 
 

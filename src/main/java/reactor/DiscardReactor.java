@@ -1,6 +1,7 @@
 package reactor;
 
 import decoder.JsonDecoder;
+import handler.HandshakeHandler;
 import handler.JsonHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -29,7 +30,8 @@ public class DiscardReactor {
                     .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new JsonDecoder());
+                            ch.pipeline().addLast(new HandshakeHandler());
+//                            ch.pipeline().addLast(new JsonDecoder());
                             ch.pipeline().addLast(new JsonHandler());
                         }
                     })

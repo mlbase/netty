@@ -3,7 +3,7 @@ package subscriber;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
-public class InsertSubcriber<T> implements Subscriber<T> {
+public class InsertSubscriber<T> implements Subscriber<T> {
 
     @Override
     public void onSubscribe(Subscription s) {
